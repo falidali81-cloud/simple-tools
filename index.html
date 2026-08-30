@@ -1,28 +1,140 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Simple Text Tools</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>أدوات النص</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  margin: 0;
+  padding: 20px;
+  text-align: center;
+}
+
+.container {
+  max-width: 600px;
+  margin: auto;
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+h1 {
+  margin-bottom: 10px;
+}
+
+textarea {
+  width: 100%;
+  height: 200px;
+  padding: 12px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 16px;
+  resize: vertical;
+}
+
+.buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+button {
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: #222;
+  color: white;
+  font-size: 15px;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+.stats {
+  margin-top: 20px;
+  font-size: 17px;
+}
+</style>
 </head>
+
 <body>
-  <h1>أدوات النص</h1>
 
-  <textarea id="text" rows="10" cols="40" placeholder="اكتب النص هنا..."></textarea>
+<div class="container">
 
-  <p>عدد الكلمات: <span id="words">0</span></p>
-  <p>عدد الحروف: <span id="chars">0</span></p>
+<h1>📝 أدوات النص</h1>
+<p>أدوات بسيطة ومجانية لتحرير النصوص</p>
 
-  <script>
-    const text = document.getElementById("text");
-    const words = document.getElementById("words");
-    const chars = document.getElementById("chars");
+<textarea id="text" placeholder="اكتب أو الصق النص هنا..."></textarea>
 
-    text.addEventListener("input", () => {
-      const value = text.value;
-      chars.textContent = value.length;
-      words.textContent = value.trim() ? value.trim().split(/\s+/).length : 0;
-    });
-  </script>
+<div class="stats">
+  الكلمات: <strong id="words">0</strong>
+  &nbsp; | &nbsp;
+  الحروف: <strong id="chars">0</strong>
+</div>
+
+<div class="buttons">
+  <button onclick="upperCase()">أحرف كبيرة</button>
+  <button onclick="lowerCase()">أحرف صغيرة</button>
+  <button onclick="cleanSpaces()">تنظيف المسافات</button>
+  <button onclick="copyText()">📋 نسخ النص</button>
+  <button onclick="clearText()">🗑️ مسح</button>
+</div>
+
+</div>
+
+<script>
+
+const text = document.getElementById("text");
+const words = document.getElementById("words");
+const chars = document.getElementById("chars");
+
+text.addEventListener("input", updateStats);
+
+function updateStats() {
+  const value = text.value;
+
+  chars.textContent = value.length;
+
+  words.textContent =
+    value.trim() === ""
+    ? 0
+    : value.trim().split(/\s+/).length;
+}
+
+function upperCase() {
+  text.value = text.value.toUpperCase();
+  updateStats();
+}
+
+function lowerCase() {
+  text.value = text.value.toLowerCase();
+  updateStats();
+}
+
+function cleanSpaces() {
+  text.value = text.value.replace(/\s+/g, " ").trim();
+  updateStats();
+}
+
+function copyText() {
+  navigator.clipboard.writeText(text.value);
+  alert("تم نسخ النص ✅");
+}
+
+function clearText() {
+  text.value = "";
+  updateStats();
+}
+
+</script>
+
 </body>
 </html>
