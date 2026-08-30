@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Text Tools</title>
+</head>
+<body>
+  <h1>أدوات النص</h1>
+
+  <textarea id="text" rows="10" cols="40" placeholder="اكتب النص هنا..."></textarea>
+
+  <p>عدد الكلمات: <span id="words">0</span></p>
+  <p>عدد الحروف: <span id="chars">0</span></p>
+
+  <script>
+    const text = document.getElementById("text");
+    const words = document.getElementById("words");
+    const chars = document.getElementById("chars");
+
+    text.addEventListener("input", () => {
+      const value = text.value;
+      chars.textContent = value.length;
+      words.textContent = value.trim() ? value.trim().split(/\s+/).length : 0;
+    });
+  </script>
+</body>
+</html>
