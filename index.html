@@ -86,6 +86,7 @@ button:active {
   <button onclick="cleanSpaces()">تنظيف المسافات</button>
   <button onclick="copyText()">📋 نسخ النص</button>
   <button onclick="clearText()">🗑️ مسح</button>
+<button onclick="downloadText()">📥 تحميل النص</button>
 </div>
 
 </div>
@@ -133,7 +134,15 @@ function clearText() {
   text.value = "";
   updateStats();
 }
-
+function downloadText() {
+  const blob = new Blob([text.value], { type: "text/plain" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "TextFix.txt";
+  a.click();
+  URL.revokeObjectURL(url);
+  }
 </script>
 
 </body>
