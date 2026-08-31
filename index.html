@@ -135,6 +135,17 @@ function clearText() {
   updateStats();
 }
 function downloadText() {
+  const blob = new Blob(["\uFEFF" + text.value], {
+    type: "text/plain;charset=utf-8"
+  });
+
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "TextFix.txt";
+  a.click();
+  URL.revokeObjectURL(url);
+}
   const blob = new Blob([text.value], { type: "text/plain" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
