@@ -142,9 +142,9 @@ function copyText() {
   alert("تم نسخ النص ✅");
 }
 
-function clearText() {
-  text.value = "";
-  updateStats();
+function copyText() {
+  navigator.clipboard.writeText(text.value);
+  alert("تم نسخ النص 📋");
 }
 function downloadText() {
   const blob = new Blob(["\uFEFF" + text.value], {
