@@ -94,6 +94,7 @@ button:active {
 </div>
 
 <div class="buttons">
+  <button onclick="reverseText()">🔄 عكس النص</button>
   <button onclick="upperCase()">أحرف كبيرة</button>
   <button onclick="lowerCase()">أحرف صغيرة</button>
   <button onclick="cleanSpaces()">تنظيف المسافات</button>
@@ -132,15 +133,13 @@ function lowerCase() {
   text.value = text.value.toLowerCase();
   updateStats();
 }
-
+function reverseText() {
+  text.value = text.value.split("").reverse().join("");
+  updateStats();
+}
 function cleanSpaces() {
   text.value = text.value.replace(/\s+/g, " ").trim();
   updateStats();
-}
-
-function copyText() {
-  navigator.clipboard.writeText(text.value);
-  alert("تم نسخ النص ✅");
 }
 
 function copyText() {
