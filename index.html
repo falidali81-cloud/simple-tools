@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TextFix</title>
 
-<style>
+  <style>
 body {
   font-family: Arial, sans-serif;
   background: #f4f6f8;
@@ -62,7 +62,19 @@ button:active {
   margin-top: 20px;
   font-size: 17px;
 }
-</style>
+@media (max-width: 480px) {
+  .container {
+    padding: 18px;
+  }
+
+  .buttons {
+    grid-template-columns: 1fr;
+  }
+
+  textarea {
+    height: 180px;
+  }
+    }</style>
 </head>
 
 <body>
