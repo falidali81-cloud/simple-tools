@@ -98,6 +98,7 @@ button:active {
   <button onclick="upperCase()">أحرف كبيرة</button>
   <button onclick="lowerCase()">أحرف صغيرة</button>
   <button onclick="cleanSpaces()">تنظيف المسافات</button>
+ <button onclick="removeEmptyLines()">🧹 إزالة الأسطر الفارغة</button>
   <button onclick="copyText()">📋 نسخ النص</button>
   <button onclick="clearText()">🗑️ مسح</button>
 <button onclick="downloadText()">📥 تحميل النص</button>
@@ -141,7 +142,13 @@ function cleanSpaces() {
   text.value = text.value.replace(/\s+/g, " ").trim();
   updateStats();
 }
-
+function removeEmptyLines() {
+  text.value = text.value
+    .split("\n")
+    .filter(line => line.trim() !== "")
+    .join("\n");
+  updateStats();
+}
 function copyText() {
   navigator.clipboard.writeText(text.value);
   alert("تم نسخ النص 📋");
