@@ -113,7 +113,9 @@ const words = document.getElementById("words");
 const chars = document.getElementById("chars");
 
 text.addEventListener("input", updateStats);
-
+text.addEventListener("input", function() {
+  localStorage.setItem("textfixText", text.value);
+});
 function updateStats() {
   const value = text.value;
 
@@ -124,7 +126,11 @@ function updateStats() {
     ? 0
     : value.trim().split(/\s+/).length;
 }
-
+const savedText = localStorage.getItem("textfixText");
+if (savedText) {
+  text.value = savedText;
+  updateStats();
+}
 function upperCase() {
   text.value = text.value.toUpperCase();
   updateStats();
