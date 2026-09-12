@@ -100,6 +100,7 @@ button:active {
   <button onclick="upperCase()">أحرف كبيرة</button>
   <button onclick="lowerCase()">أحرف صغيرة</button>
   <button onclick="removeTashkeel()">🧹 إزالة التشكيل</button>
+  <button onclick="normalizeArabic()">🔤 توحيد الحروف العربية</button>
   <button onclick="cleanSpaces()">تنظيف المسافات</button>
   <button onclick="removeEmptyLines()">🧹 إزالة الأسطر الفارغة</button>
   <button onclick="copyText()">📋 نسخ النص</button>
@@ -145,6 +146,11 @@ function lowerCase() {
 }
 function removeTashkeel() {
   text.value = text.value.replace(/[\u064B-\u065F\u0670]/g, "");
+  updateStats();
+}
+function normalizeArabic() {
+  text.value = text.value
+    .replace(/[أإآ]/g, "ا");
   updateStats();
 }
 function reverseText() {
