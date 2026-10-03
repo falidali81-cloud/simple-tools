@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="google-site-verification" content="0kLzsv2nUoblkeBqUbITydQvrZFOrYPD_uvctEIybkA" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>إزالة التشكيل من النص العربي أونلاين | TextFix</title>
+<meta name="description" content="أداة مجانية لحذف الحركات والتشكيل (الفتحة والضمة والكسرة والشدة والسكون) من أي نص عربي بضغطة واحدة.">
+<link rel="canonical" href="https://falidali81-cloud.github.io/simple-tools/remove-tashkeel.html">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+  <p class="home"><a href="./">📝 TextFix</a></p>
+  <h1>إزالة التشكيل من النص</h1>
+  <p class="sub">الصق النص المشكّل ثم اضغط «إزالة التشكيل» ليُحذف كل التشكيل من الفتحة والضمة والكسرة والشدة والسكون والتنوين، ويبقى النص نظيفًا وجاهزًا للنسخ.</p>
+  <textarea id="text" placeholder="اكتب أو الصق النص هنا..." aria-label="النص"></textarea>
+  <div class="stats">الكلمات: <strong id="words">0</strong> &nbsp;|&nbsp; الحروف: <strong id="chars">0</strong> &nbsp;|&nbsp; الأسطر: <strong id="lines">0</strong></div>
+  <div class="buttons">
+    <button onclick="removeTashkeel()">🧹 إزالة التشكيل</button>
+    <button class="main" onclick="copyText()">📋 نسخ النص</button>
+    <button onclick="clearText()">🗑️ مسح</button>
+  </div>
+  <h2>أدوات أخرى</h2>
+  <ul class="tool-links"><li><a href="word-counter.html">عدّاد الكلمات والحروف</a></li><li><a href="remove-duplicate-lines.html">إزالة الأسطر المكررة</a></li><li><a href="sort-lines.html">ترتيب الأسطر أبجديًا</a></li><li><a href="convert-digits.html">تحويل الأرقام العربية والإنجليزية</a></li><li><a href="remove-empty-lines.html">إزالة الأسطر الفارغة</a></li></ul>
+</div>
+<div id="toast" role="status" aria-live="polite"></div>
+<script src="tools.js"></script>
+</body>
+</html>
