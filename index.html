@@ -1,196 +1,324 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta name="google-site-verification" content="0kLzsv2nUoblkeBqUbITydQvrZFOrYPD_uvctEIybkA" />
 <meta charset="UTF-8">
+<meta name="google-site-verification" content="0kLzsv2nUoblkeBqUbITydQvrZFOrYPD_uvctEIybkA" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TextFix - أدوات مجانية لتحرير وتنظيف النصوص</title>
-<meta name="description" content="TextFix — أدوات مجانية وسريعة لتحرير وتنظيف النصوص، عدّ الكلمات والحروف، نسخ وتحميل النصوص.">
-<meta name="keywords" content="تحرير النصوص, تنظيف النصوص, عداد الكلمات, عداد الحروف, أدوات نصية, TextFix">
-  <style>
+<meta name="description" content="TextFix — أدوات مجانية وسريعة لتحرير وتنظيف النصوص، عدّ الكلمات والحروف، إزالة التشكيل والتكرار، تحويل الأرقام، نسخ وتحميل النصوص.">
+<meta name="keywords" content="تحرير النصوص, تنظيف النصوص, عداد الكلمات, عداد الحروف, إزالة التشكيل, إزالة التكرار, أدوات نصية, TextFix">
+<style>
+:root {
+  --bg: #f4f6f8;
+  --card: #ffffff;
+  --text: #1c1f23;
+  --muted: #5b6470;
+  --border: #c9d0d8;
+  --btn: #222;
+  --btn-text: #fff;
+  --accent: #0b6e4f;
+}
+:root[data-theme="dark"] {
+  --bg: #14171a;
+  --card: #1e2227;
+  --text: #eceff3;
+  --muted: #a3acb8;
+  --border: #3a414a;
+  --btn: #3b4450;
+  --btn-text: #fff;
+  --accent: #4cc99b;
+}
+* { box-sizing: border-box; }
 body {
-  font-family: Arial, sans-serif;
-  background: #f4f6f8;
+  font-family: Tahoma, "Segoe UI", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
   margin: 0;
   padding: 20px;
   text-align: center;
 }
-
 .container {
-  max-width: 600px;
+  max-width: 640px;
   margin: auto;
-  background: white;
+  background: var(--card);
   padding: 25px;
   border-radius: 15px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
-
-    h1 {
-  margin-bottom: 10px;
-  font-size: 32px;
-    }
-
+h1 { margin: 0 0 10px; font-size: 32px; }
+p.sub { color: var(--muted); margin: 0 0 18px; line-height: 1.7; }
 textarea {
   width: 100%;
   height: 200px;
   padding: 12px;
-  box-sizing: border-box;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border);
   border-radius: 10px;
   font-size: 16px;
+  font-family: inherit;
+  background: var(--card);
+  color: var(--text);
   resize: vertical;
 }
-
+textarea:focus-visible, button:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+.stats { margin: 16px 0 6px; font-size: 17px; }
+h2 { font-size: 15px; color: var(--muted); margin: 18px 0 8px; text-align: right; font-weight: 600; }
 .buttons {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
-  margin-top: 15px;
 }
-
 button {
   padding: 12px;
   border: none;
   border-radius: 8px;
-  background: #222;
-  color: white;
+  background: var(--btn);
+  color: var(--btn-text);
   font-size: 15px;
+  font-family: inherit;
+  cursor: pointer;
 }
-
-button:active {
-  transform: scale(0.98);
+button:active { transform: scale(0.98); }
+button.main { background: var(--accent); color: #fff; }
+.top { display: flex; justify-content: flex-start; margin-bottom: 6px; }
+.top button { padding: 8px 12px; font-size: 14px; }
+#toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #222;
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 15px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s;
 }
-
-.stats {
-  margin-top: 20px;
-  font-size: 17px;
-}
+#toast.show { opacity: 1; }
 @media (max-width: 480px) {
-  .container {
-    padding: 18px;
-  }
-
-  .buttons {
-    grid-template-columns: 1fr;
-  }
-
-  textarea {
-    height: 180px;
-  }
-    }</style>
+  .container { padding: 18px; }
+  textarea { height: 180px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #toast { transition: none; }
+}
+</style>
 </head>
-
 <body>
 
 <div class="container">
+  <div class="top">
+    <button id="themeBtn" onclick="toggleTheme()" aria-label="تبديل الوضع الليلي">🌙 الوضع الليلي</button>
+  </div>
 
-<h1>📝 TextFix</h1>
-<p>أدوات مجانية وسريعة لتحرير وتنظيف النصوص، عدّ الكلمات والحروف، نسخ وتحميل النصوص.</p>
+  <h1>📝 TextFix</h1>
+  <p class="sub">أدوات مجانية وسريعة لتحرير وتنظيف النصوص، عدّ الكلمات والحروف، نسخ وتحميل النصوص.</p>
 
-<textarea id="text" placeholder="اكتب أو الصق النص هنا..."></textarea>
+  <textarea id="text" placeholder="اكتب أو الصق النص هنا..." aria-label="النص"></textarea>
 
-<div class="stats">
-  الكلمات: <strong id="words">0</strong>
-  &nbsp; | &nbsp;
-  الحروف: <strong id="chars">0</strong>
+  <div class="stats">
+    الكلمات: <strong id="words">0</strong>
+    &nbsp;|&nbsp;
+    الحروف: <strong id="chars">0</strong>
+    &nbsp;|&nbsp;
+    الأسطر: <strong id="lines">0</strong>
+  </div>
+
+  <h2>تنظيف</h2>
+  <div class="buttons">
+    <button onclick="cleanSpaces()">تنظيف المسافات</button>
+    <button onclick="removeEmptyLines()">🧹 إزالة الأسطر الفارغة</button>
+    <button onclick="removeDuplicateLines()">إزالة الأسطر المكررة</button>
+    <button onclick="removeLinks()">إزالة الروابط</button>
+  </div>
+
+  <h2>اللغة العربية</h2>
+  <div class="buttons">
+    <button onclick="removeTashkeel()">🧹 إزالة التشكيل</button>
+    <button onclick="removeTatweel()">إزالة التطويل (ـ)</button>
+    <button onclick="normalizeArabic()">🔤 توحيد الألف والياء</button>
+    <button onclick="digitsToWestern()">الأرقام: ١٢٣ ← 123</button>
+    <button onclick="digitsToArabic()">الأرقام: 123 ← ١٢٣</button>
+  </div>
+
+  <h2>تحويل وترتيب</h2>
+  <div class="buttons">
+    <button onclick="sortLines()">ترتيب الأسطر أبجديًا</button>
+    <button onclick="reverseText()">🔄 عكس النص</button>
+    <button onclick="upperCase()">أحرف كبيرة (EN)</button>
+    <button onclick="lowerCase()">أحرف صغيرة (EN)</button>
+  </div>
+
+  <h2>حفظ</h2>
+  <div class="buttons">
+    <button class="main" onclick="copyText()">📋 نسخ النص</button>
+    <button class="main" onclick="downloadText()">📥 تحميل النص</button>
+    <button onclick="clearText()">🗑️ مسح</button>
+  </div>
 </div>
 
-<div class="buttons">
-  <button onclick="reverseText()">🔄 عكس النص</button>
-  <button onclick="upperCase()">أحرف كبيرة</button>
-  <button onclick="lowerCase()">أحرف صغيرة</button>
-  <button onclick="removeTashkeel()">🧹 إزالة التشكيل</button>
-  <button onclick="normalizeArabic()">🔤 توحيد الحروف العربية</button>
-  <button onclick="cleanSpaces()">تنظيف المسافات</button>
-  <button onclick="removeEmptyLines()">🧹 إزالة الأسطر الفارغة</button>
-  <button onclick="copyText()">📋 نسخ النص</button>
-  <button onclick="clearText()">🗑️ مسح</button>
-<button onclick="downloadText()">📥 تحميل النص</button>
-</div>
-
-</div>
+<div id="toast" role="status" aria-live="polite"></div>
 
 <script>
-
 const text = document.getElementById("text");
 const words = document.getElementById("words");
 const chars = document.getElementById("chars");
+const lines = document.getElementById("lines");
+const toastEl = document.getElementById("toast");
+let toastTimer;
 
-text.addEventListener("input", updateStats);
-text.addEventListener("input", function() {
-  localStorage.setItem("textfixText", text.value);
-});
+function store(key, value) {
+  try { localStorage.setItem(key, value); } catch (e) {}
+}
+function load(key) {
+  try { return localStorage.getItem(key); } catch (e) { return null; }
+}
+function unstore(key) {
+  try { localStorage.removeItem(key); } catch (e) {}
+}
+
+function toast(msg) {
+  toastEl.textContent = msg;
+  toastEl.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toastEl.classList.remove("show"), 1800);
+}
+
 function updateStats() {
-  const value = text.value;
-
-  chars.textContent = value.length;
-
-  words.textContent =
-    value.trim() === ""
-    ? 0
-    : value.trim().split(/\s+/).length;
+  const v = text.value;
+  chars.textContent = Array.from(v).length;
+  words.textContent = v.trim() === "" ? 0 : v.trim().split(/\s+/).length;
+  lines.textContent = v === "" ? 0 : v.split("\n").length;
 }
-const savedText = localStorage.getItem("textfixText");
-if (savedText) {
-  text.value = savedText;
-  updateStats();
-}
-function upperCase() {
-  text.value = text.value.toUpperCase();
+
+function setText(v) {
+  text.value = v;
+  store("textfixText", v);
   updateStats();
 }
 
-function lowerCase() {
-  text.value = text.value.toLowerCase();
+text.addEventListener("input", () => {
+  store("textfixText", text.value);
   updateStats();
-}
-function removeTashkeel() {
-  text.value = text.value.replace(/[\u064B-\u065F\u0670]/g, "");
-  updateStats();
-}
-function normalizeArabic() {
-  text.value = text.value
-    .replace(/[أإآ]/g, "ا");
-  updateStats();
-}
-function reverseText() {
-  text.value = text.value.split("").reverse().join("");
-  updateStats();
-}
+});
+
+const saved = load("textfixText");
+if (saved) { text.value = saved; updateStats(); }
+
+/* ---------- التنظيف ---------- */
 function cleanSpaces() {
-  text.value = text.value.replace(/\s+/g, " ").trim();
-  updateStats();
+  setText(text.value.replace(/[ \t\u00A0]+/g, " ").replace(/ ?\n ?/g, "\n").trim());
+  toast("تم تنظيف المسافات");
 }
 function removeEmptyLines() {
-  text.value = text.value
-    .split("\n")
-    .filter(line => line.trim() !== "")
-    .join("\n");
-  updateStats();
+  setText(text.value.split("\n").filter(l => l.trim() !== "").join("\n"));
+  toast("تمت إزالة الأسطر الفارغة");
 }
-function clearText() {
-  if (confirm("هل أنت متأكد من حذف النص؟")) {
-    text.value = "";
-    localStorage.removeItem("textfixText");
-    updateStats();
+function removeDuplicateLines() {
+  const seen = new Set();
+  const out = text.value.split("\n").filter(l => {
+    const k = l.trim();
+    if (k === "") return true;
+    if (seen.has(k)) return false;
+    seen.add(k);
+    return true;
+  });
+  setText(out.join("\n"));
+  toast("تمت إزالة الأسطر المكررة");
+}
+function removeLinks() {
+  setText(text.value.replace(/(https?:\/\/|www\.)\S+/gi, "").replace(/[ \t]{2,}/g, " "));
+  toast("تمت إزالة الروابط");
+}
+
+/* ---------- العربية ---------- */
+function removeTashkeel() {
+  setText(text.value.replace(/[\u064B-\u065F\u0670]/g, ""));
+  toast("تمت إزالة التشكيل");
+}
+function removeTatweel() {
+  setText(text.value.replace(/\u0640/g, ""));
+  toast("تمت إزالة التطويل");
+}
+function normalizeArabic() {
+  setText(text.value.replace(/[أإآٱ]/g, "ا").replace(/ى/g, "ي"));
+  toast("تم توحيد الألف والياء");
+}
+function digitsToWestern() {
+  setText(text.value
+    .replace(/[٠-٩]/g, d => d.charCodeAt(0) - 0x0660)
+    .replace(/[۰-۹]/g, d => d.charCodeAt(0) - 0x06F0));
+  toast("تم تحويل الأرقام إلى 123");
+}
+function digitsToArabic() {
+  setText(text.value.replace(/[0-9]/g, d => String.fromCharCode(0x0660 + Number(d))));
+  toast("تم تحويل الأرقام إلى ١٢٣");
+}
+
+/* ---------- تحويل وترتيب ---------- */
+function sortLines() {
+  const sorted = text.value.split("\n").sort((a, b) => a.localeCompare(b, "ar"));
+  setText(sorted.join("\n"));
+  toast("تم ترتيب الأسطر");
+}
+function reverseText() {
+  setText(Array.from(text.value).reverse().join(""));
+}
+function upperCase() { setText(text.value.toUpperCase()); }
+function lowerCase() { setText(text.value.toLowerCase()); }
+
+/* ---------- الحفظ ---------- */
+async function copyText() {
+  if (!text.value) { toast("لا يوجد نص لنسخه"); return; }
+  try {
+    await navigator.clipboard.writeText(text.value);
+    toast("تم نسخ النص 📋");
+  } catch (e) {
+    text.select();
+    try {
+      document.execCommand("copy");
+      toast("تم نسخ النص 📋");
+    } catch (e2) {
+      toast("تعذّر النسخ، انسخ النص يدويًا");
+    }
   }
 }
-function copyText() {
-  navigator.clipboard.writeText(text.value);
-  alert("تم نسخ النص 📋");
-}
 function downloadText() {
-  const blob = new Blob(["\uFEFF" + text.value], {
-    type: "text/plain;charset=utf-8"
-  });
-
+  if (!text.value) { toast("لا يوجد نص لتحميله"); return; }
+  const blob = new Blob(["\uFEFF" + text.value], { type: "text/plain;charset=utf-8" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
   a.download = "TextFix.txt";
+  document.body.appendChild(a);
   a.click();
-  URL.revokeObjectURL(url);
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
+function clearText() {
+  if (text.value && confirm("هل أنت متأكد من حذف النص؟")) {
+    text.value = "";
+    unstore("textfixText");
+    updateStats();
+  }
+}
+
+/* ---------- الوضع الليلي ---------- */
+function applyTheme(t) {
+  document.documentElement.setAttribute("data-theme", t);
+  document.getElementById("themeBtn").textContent = t === "dark" ? "☀️ الوضع النهاري" : "🌙 الوضع الليلي";
+}
+function toggleTheme() {
+  const next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+  applyTheme(next);
+  store("textfixTheme", next);
+}
+applyTheme(load("textfixTheme") ||
+  (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
 </script>
 
 </body>
