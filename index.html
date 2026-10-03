@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="google-site-verification" content="0kLzsv2nUoblkeBqUbITydQvrZFOrYPD_uvctEIybkA" />
+<link rel="canonical" href="https://falidali81-cloud.github.io/simple-tools/">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TextFix - أدوات مجانية لتحرير وتنظيف النصوص</title>
 <meta name="description" content="TextFix — أدوات مجانية وسريعة لتحرير وتنظيف النصوص، عدّ الكلمات والحروف، إزالة التشكيل والتكرار، تحويل الأرقام، نسخ وتحميل النصوص.">
@@ -99,6 +100,7 @@ button.main { background: var(--accent); color: #fff; }
   transition: opacity .2s;
 }
 #toast.show { opacity: 1; }
+.tool-links{list-style:none;margin:0;padding:0;text-align:right;line-height:2.2}.tool-links a{color:var(--accent)}
 @media (max-width: 480px) {
   .container { padding: 18px; }
   textarea { height: 180px; }
@@ -159,6 +161,9 @@ button.main { background: var(--accent); color: #fff; }
     <button class="main" onclick="downloadText()">📥 تحميل النص</button>
     <button onclick="clearText()">🗑️ مسح</button>
   </div>
+
+  <h2>أدوات مخصصة</h2>
+  <ul class="tool-links"><li><a href="word-counter.html">عدّاد الكلمات والحروف</a></li><li><a href="remove-tashkeel.html">إزالة التشكيل من النص</a></li><li><a href="remove-duplicate-lines.html">إزالة الأسطر المكررة</a></li><li><a href="sort-lines.html">ترتيب الأسطر أبجديًا</a></li><li><a href="convert-digits.html">تحويل الأرقام العربية والإنجليزية</a></li><li><a href="remove-empty-lines.html">إزالة الأسطر الفارغة</a></li></ul>
 </div>
 
 <div id="toast" role="status" aria-live="polite"></div>
