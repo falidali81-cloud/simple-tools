@@ -1,2 +1,2 @@
 # simple-tools
-Simple useful tools for everyday tasks.
+Simple useful tools for everyday tasks .
